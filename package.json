@@ -3,7 +3,13 @@
   "main": "./lib/node-debug",
   "version": "0.0.0",
   "description": "A short description of your package",
-  "keywords": [],
+  "keywords": [
+    "debugger",
+    "debug",
+    "node-debug",
+    "node-debugger",
+    "node-inspector"
+  ],
   "activationCommands": {
     "atom-workspace": "node-debug:run"
   },
@@ -13,6 +19,7 @@
     "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
+    "biased-opener": "^0.2.8",
     "node-inspector": "^0.12.7"
   }
 }
