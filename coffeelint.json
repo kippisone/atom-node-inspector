@@ -1,0 +1,15 @@
+{
+  "braces_spacing": 1,
+  "max_line_length": 127,
+  "missing_fat_arrows": true,
+  "newlines_after_classes": 3,
+  "no_empty_functions": true,
+  "no_stand_alone_at": true,
+  "no_tabs": true,
+  "no_this": true,
+  "no_trailing_semicolons": true,
+  "no_trailing_whitespace": true,
+  "no_unnecessary_fat_arrows": true,
+  "space_operators": true,
+  "spacing_after_comma": true
+}

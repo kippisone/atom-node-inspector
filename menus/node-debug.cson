@@ -1,0 +1,22 @@
+# See https://atom.io/docs/latest/hacking-atom-package-word-count#menus for more details
+'context-menu':
+  'atom-text-editor': [
+    {
+      'label': 'Run Node Debug'
+      'command': 'node-debug:run'
+    }
+  ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'Node Debug'
+      'submenu': [
+        {
+          'label': 'Run'
+          'command': 'node-debug:run'
+        }
+      ]
+    ]
+  }
+]
