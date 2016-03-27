@@ -1,7 +1,7 @@
 {
   "name": "node-debug",
   "main": "./lib/node-debug",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Node.js debugging interface for Atom using node-inspector.",
   "keywords": [
     "debugger",
