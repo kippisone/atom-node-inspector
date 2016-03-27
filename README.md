@@ -1,6 +1,6 @@
 # node-debug
 
-Debugger for Node.js using node-inspector.
+Node.js debugging interface for Atom using node-inspector.  
+[node-inspector](https://github.com/node-inspector/node-inspector) uses the Blink Developer Tools as debugging interface.
 
-
-![A screenshot of your package](https://f.cloud.github.com/assets/69169/2290250/c35d867a-a017-11e3-86be-cd7c5bf3ff9b.gif)
+![node-debug screenshot](https://cloud.githubusercontent.com/assets/3463165/14064391/02f19412-f402-11e5-8f21-5bd3a59ed488.jpg)
