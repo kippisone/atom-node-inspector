@@ -13,7 +13,10 @@
   "activationCommands": {
     "atom-workspace": "node-debug:run"
   },
-  "repository": "https://github.com/atom/node-debug",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Andifeind/atom-node-inspector.git"
+  },
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
@@ -21,5 +24,14 @@
   "dependencies": {
     "biased-opener": "^0.2.8",
     "node-inspector": "^0.12.7"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/Andifeind/atom-node-inspector/issues"
+  },
+  "homepage": "https://github.com/Andifeind/atom-node-inspector#readme",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andi Heinkelein <andifeind@noname-media.com>"
 }
