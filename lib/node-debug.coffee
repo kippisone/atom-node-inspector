@@ -12,6 +12,11 @@ module.exports = NodeDebug =
   modalPanel: null
   subscriptions: null
 
+  config:
+    nodePath:
+      type: 'string'
+      default: 'node'
+
   activate: (state) ->
     @nodeDebugView = new NodeDebugView(state.nodeDebugViewState)
     @modalPanel = atom.workspace.addModalPanel(item: @nodeDebugView.getElement(), visible: false)
@@ -49,7 +54,7 @@ module.exports = NodeDebug =
       curDir = path.dirname(editor.getPath())
       curFile = path.basename(editor.getPath(curDir))
 
-      mainFile = NodeDebug.getMainFile(curDir);
+      mainFile = NodeDebug.getMainFile(curDir)
 
       args = [
         '--debug-brk'
@@ -59,10 +64,7 @@ module.exports = NodeDebug =
         'env': process.env
         'cwd': mainFile.dir
 
-      cmd = 'node'
-
-      console.log('CWD', mainFile.dir);
-      console.log('Project', atom.project.getPaths());
+      cmd = atom.config.get('node-debug.nodePath')
 
       console.log 'CMD:', cmd
       console.log 'ARGS:', args
@@ -73,10 +75,10 @@ module.exports = NodeDebug =
         console.error err.toString()
 
       ndbg.stdout.on 'data', (data) ->
-        console.log data
+        console.log data.toString()
 
-      ndbg.on 'close', ->
-        console.log 'FIN'
+      ndbg.on 'close', (state) ->
+        console.log 'FIN', state
 
       browserOpts =
         preferredBrowsers : ['chromium', 'chrome', 'opera']
@@ -84,13 +86,13 @@ module.exports = NodeDebug =
       browser 'http://localhost:8082', browserOpts, (err, ok, instance) ->
         instance.on 'stop', ->
           console.log 'Browser stoped, kill debug session'
-          ndbg.kill()
+          # ndbg.kill()
 
     .catch (err) ->
       console.error(err)
 
   getMainFile: (curDir) ->
-    projectDirs = atom.project.getPaths(curDir);
+    projectDirs = atom.project.getPaths(curDir)
     projectDir = project for project in projectDirs when curDir.startsWith project
     console.log projectDirs, projectDir, curDir
 
@@ -100,5 +102,5 @@ module.exports = NodeDebug =
       dir: projectDir
       file: pkg.debug || pkg.main
 
-    console.log('MAIN', project);
+    console.log('MAIN', project)
     return project

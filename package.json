@@ -23,7 +23,8 @@
     "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
-    "biased-opener": "^0.2.8"
+    "biased-opener": "^0.2.8",
+    "superchain": "^0.1.0"
   },
   "bugs": {
     "url": "https://github.com/Andifeind/atom-node-inspector/issues"
