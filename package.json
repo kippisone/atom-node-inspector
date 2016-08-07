@@ -3,6 +3,7 @@
   "main": "./lib/node-debug",
   "version": "0.1.1",
   "description": "Node.js debugging interface for Atom using node-inspector.",
+  "debug": "./examples/debug.js",
   "keywords": [
     "debugger",
     "debug",
@@ -22,8 +23,7 @@
     "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
-    "biased-opener": "^0.2.8",
-    "node-inspector": "^0.12.7"
+    "biased-opener": "^0.2.8"
   },
   "bugs": {
     "url": "https://github.com/Andifeind/atom-node-inspector/issues"

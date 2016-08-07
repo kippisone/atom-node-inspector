@@ -2,16 +2,21 @@ NodeInspector = require 'node-inspector'
 exec = require('child_process').exec
 spawn = require('child_process').spawn
 path = require 'path'
+fs = require 'fs'
+co = require 'co'
 
 module.exports = NodeInspector =
   start: ->
-    return new Promise (resolve, reject) ->
-      NodeInspector.status()
-      .then (status) ->
-        return resolve('already runing') if status
+    return co ->
+      if !NodeInspector.isInstalled()
+        installState = yield NodeInspector.install()
+        console.log installState
 
-        console.log 'Start Inspector', status
+      status = yield NodeInspector.status()
+      return 'already runing' if status
+      console.log 'Start Inspector', status
 
+      yield new Promise (resolve, reject) ->
         cmd =
           path.join __dirname, '../node_modules/node-inspector/bin/inspector.js'
 
@@ -28,18 +33,15 @@ module.exports = NodeInspector =
         inspector = spawn cmd, args, opts
         inspector.stdout.on 'data', (data) ->
           console.log 'NEW' + data
-          resolve('with pid ' + data)
 
         inspector.stderr.on 'data', (err) ->
-          console.log 'ERR', err
-          reject err
+          console.log 'ERR', err.toString()
 
         inspector.on 'close', (code) ->
           console.log 'Process stoped', code
+          resolve 'Success' if !code
+          reject 'Failed! ' + code
 
-      .catch (err) ->
-        console.error err
-        reject err
   status: ->
     return new Promise (resolve, reject) ->
       exec 'pgrep -fa node-inspector', (err, stdout, stderr) ->
@@ -50,3 +52,22 @@ module.exports = NodeInspector =
         console.log 'PGREP: PIDS ' + processes
         return resolve true if stdout.length < 1
         resolve false
+
+  install: ->
+    return new Promise (resolve, reject) ->
+      opts =
+        cwd: path.join(__dirname, '../')
+      cp = spawn 'npm install node-inspector', opts
+      cp.stdout.on 'data', (data) ->
+        console.log data
+      cp.stderr.on 'data', (data) ->
+        console.error data
+      cp.on 'close', (code) ->
+        resolve 'Installed!' if !code
+        reject 'Installation failed!'
+  isInstalled: ->
+    try
+      fs.accessSync path.join(__dirname, '../node_modules/node-inspector/package.json')
+      return true
+    catch err
+      return false

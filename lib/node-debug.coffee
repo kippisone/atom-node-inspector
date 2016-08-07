@@ -49,15 +49,20 @@ module.exports = NodeDebug =
       curDir = path.dirname(editor.getPath())
       curFile = path.basename(editor.getPath(curDir))
 
+      mainFile = NodeDebug.getMainFile(curDir);
+
       args = [
         '--debug-brk'
-        curFile
+        mainFile.file
       ]
       opts =
         'env': process.env
-        'cwd': curDir
+        'cwd': mainFile.dir
 
       cmd = 'node'
+
+      console.log('CWD', mainFile.dir);
+      console.log('Project', atom.project.getPaths());
 
       console.log 'CMD:', cmd
       console.log 'ARGS:', args
@@ -65,7 +70,7 @@ module.exports = NodeDebug =
 
       ndbg = spawn(cmd, args, opts)
       ndbg.stderr.on 'data', (err) ->
-        console.error err
+        console.error err.toString()
 
       ndbg.stdout.on 'data', (data) ->
         console.log data
@@ -83,3 +88,17 @@ module.exports = NodeDebug =
 
     .catch (err) ->
       console.error(err)
+
+  getMainFile: (curDir) ->
+    projectDirs = atom.project.getPaths(curDir);
+    projectDir = project for project in projectDirs when curDir.startsWith project
+    console.log projectDirs, projectDir, curDir
+
+    pkg = require path.join projectDir || projectDirs[0], 'package.json'
+
+    project =
+      dir: projectDir
+      file: pkg.debug || pkg.main
+
+    console.log('MAIN', project);
+    return project
