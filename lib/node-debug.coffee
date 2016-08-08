@@ -60,11 +60,16 @@ module.exports = NodeDebug =
         '--debug-brk'
         mainFile.file
       ]
+
       opts =
         'env': process.env
         'cwd': mainFile.dir
 
       cmd = atom.config.get('node-debug.nodePath')
+
+      if process.platform == 'win32'
+        args = ['/c', cmd].concat(args)
+        cmd = 'cmd.exe'
 
       console.log 'CMD:', cmd
       console.log 'ARGS:', args

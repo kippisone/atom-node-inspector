@@ -1,6 +1,5 @@
 'use strict'
 
-exec = require('child_process').exec
 spawn = require('child_process').spawn
 path = require 'path'
 fs = require 'fs'
@@ -23,13 +22,21 @@ module.exports = NodeInspector =
     chain.add () ->
       console.log 'Start Inspector', status
       return new Promise (resolve, reject) ->
-        cmd =
-          path.join __dirname, '../node_modules/.bin/node-inspector'
-
         args = [
           '--web-port',
           '8082'
         ]
+
+        if process.platform == 'win32'
+          args = [path.join __dirname, '../node_modules/node-inspector/bin/inspector.js'].concat(args)
+          cmd = atom.config.get('node-debug.nodePath')
+        else
+          cmd =
+            path.join __dirname, '../node_modules/.bin/node-inspector'
+
+        console.log 'Spawn process'
+        console.log 'CMD:', cmd
+        console.log 'ARGS:', args
 
         opts =
           detach: true
@@ -57,14 +64,6 @@ module.exports = NodeInspector =
         console.error 'Request error', err
         resolve false
       req.end()
-      # exec 'pgrep -fa node-inspector', (err, stdout, stderr) ->
-      #   return reject err if err
-      #   return reject stderr if stderr
-      #
-      #   processes = stdout.split('\n')
-      #   console.log 'PGREP: PIDS ' + processes
-      #   return resolve true if stdout.length < 1
-      #   resolve false
 
   install: ->
     return new Promise (resolve, reject) ->
@@ -73,8 +72,14 @@ module.exports = NodeInspector =
         env: process.env
       console.log('Install opts', opts)
 
-      cmd = atom.config.get('node-debug.nodePath').replace(/node$/, 'npm')
-      cp = spawn cmd, ['install', 'node-inspector'], opts
+      if process.platform == 'win32'
+        cmd = atom.config.get('node-debug.nodePath').replace(/node(.exe)$/, 'npm.cmd')
+        args = ['/c', cmd, 'install', 'node-inspector']
+        cmd = 'cmd.exe'
+      else
+        cmd = atom.config.get('node-debug.nodePath').replace(/node$/, 'npm')
+        args = ['install', 'node-inspector']
+      cp = spawn cmd, args, opts
       cp.stdout.on 'data', (data) ->
         console.log data.toString()
       cp.stderr.on 'data', (data) ->
