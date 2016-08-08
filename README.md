@@ -13,4 +13,4 @@ The node-debug app installs `node-inspector` by its first start. This may takes 
 Run the debugger
 ----------------
 
-The debugger will be start by the command `node-debug:start` or by pressing `ctrl`+`i`. The debugger reads the main file from package.json of the current project. It looks for a `debug` flag or reads from the `main` propertie.
+The debugger will be start by the command `node-debug:run` or by pressing `ctrl`+`i`. The debugger reads the main file from package.json of the current project. It looks for a `debug` flag or reads from the `main` propertie.
