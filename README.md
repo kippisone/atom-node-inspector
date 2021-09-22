@@ -8,9 +8,9 @@ Node.js debugging interface for Atom using node-inspector.
 Install
 -------
 
-The node-debug app installs `node-inspector` by its first start. This may takes a few seconds. Press `ctrl`+`alt`+`i` to open the atom console to see whats happend. The debugger should start after a successfully installation.
+The node-debug app installs `node-inspector` on its first start. This may take a few seconds. Press `ctrl`+`alt`+`i` to open the Atom console in order to see what's happened. The debugger should start after a successful installation.
 
 Run the debugger
 ----------------
 
-The debugger will be start by the command `node-debug:run` or by pressing `ctrl`+`i`. The debugger reads the main file from package.json of the current project. It looks for a `debug` flag or reads from the `main` propertie.
+You can run the dubugger by using `node-debug:run` command or pressing `ctrl`+`i`. The debugger reads the main file from package.json of the current project. It looks for a `debug` flag or reads from the `main` property.
